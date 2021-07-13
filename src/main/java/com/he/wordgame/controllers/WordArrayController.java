@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/api/v1/wordarray")
+@RequestMapping("/api/v1/word-array")
 @RestController
 public class WordArrayController {
 
@@ -18,13 +18,12 @@ public class WordArrayController {
         this.wordArrayService = wordArrayService;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public void addWordArray(@RequestBody WordArray wordArray){
-        WordArray changedWords = wordArrayService.wordGameLogic(wordArray);
-        wordArrayService.addWordArray(changedWords);
+        wordArrayService.addWordArray(wordArray);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<WordArray> getAllWordArrays(){
         return wordArrayService.getAllWordArrays();
     }

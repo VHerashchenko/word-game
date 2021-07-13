@@ -2,25 +2,26 @@ package com.he.wordgame.service;
 
 import com.he.wordgame.model.WordArray;
 import com.he.wordgame.repository.WordArrayRepository;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
 @Service
+@NoArgsConstructor
 public class WordArrayService {
-    private final WordArrayRepository wordArrayRepository;
+    private WordArrayRepository wordArrayRepository;
 
     @Autowired
-    public WordArrayService(@Qualifier("wordRepo") WordArrayRepository wordArrayRepository) {
+    public WordArrayService(WordArrayRepository wordArrayRepository) {
         this.wordArrayRepository = wordArrayRepository;
     }
 
     public void addWordArray(WordArray wordArray){
-        wordArrayRepository.insertWordArray(wordArray);
+        wordArrayRepository.insertWordArray(wordGameLogic(wordArray));
     }
 
     public List<WordArray> getAllWordArrays(){
@@ -28,9 +29,9 @@ public class WordArrayService {
     }
 
     public WordArray wordGameLogic(WordArray wordArray){
-    List<String> uncheckedList = wordArray.getWords();
+    LinkedList<String> uncheckedList = wordArray.getWordsList();
 
-    List<String> correctList = new ArrayList<>();
+        LinkedList<String> correctList = new LinkedList<>();
 
     if(!uncheckedList.get(0).equals("")) {
 

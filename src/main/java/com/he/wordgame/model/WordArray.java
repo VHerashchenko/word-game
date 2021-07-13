@@ -4,21 +4,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.LinkedList;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 public class WordArray {
-    @JsonProperty("id")
-    private final UUID id;
 
     @JsonProperty("words")
-    private List<String> words;
+    private LinkedList<String> wordsList;
 
-    public void setWords(List<String> words){
-        this.words = words;
+    public void setWords(LinkedList<String> wordsList){
+        this.wordsList = wordsList;
     }
 }
