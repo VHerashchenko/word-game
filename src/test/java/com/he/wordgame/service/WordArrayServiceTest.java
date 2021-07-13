@@ -1,72 +1,105 @@
 package com.he.wordgame.service;
 
 import com.he.wordgame.model.WordArray;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.LinkedList;
+import java.util.stream.Stream;
 
-public class WordArrayServiceTest {
+class WordArrayServiceTest {
 
-    public WordArrayService wordArrayService;
+    private static WordArrayService wordArrayService;
 
-    public WordArray wordArray;
-
-    public UUID id = UUID.randomUUID();
-
-    @Test
-    public void wordGameLogicTestAllGood() {
-        List<String> testList = Arrays.asList("fish", "horse", "egg", "goose", "eagle");
-        wordArray = new WordArray(id, testList);
-
-        WordArray wordArrayChecked = wordArrayService.wordGameLogic(wordArray);
-
-        List<String> actual = wordArrayChecked.getWords();
-        List<String> expected = Arrays.asList("fish", "horse", "egg", "goose", "eagle");
-
-        Assert.assertEquals(actual, expected);
+    @BeforeAll private static void setUp(){
+        wordArrayService = new WordArrayService();
     }
 
-    @Test
-    public void wordGameLogicTestNotAllCorrect(){
-        List<String> testList = Arrays.asList("fish", "horse", "snake", "goose", "eagle");
-        wordArray = new WordArray(id, testList);
+    private static Stream<Arguments> dataTest1() {
+        LinkedList<String> linkedList = new LinkedList<>();
+        linkedList.add("fish");
+        linkedList.add("horse");
+        linkedList.add("egg");
+        linkedList.add("goose");
+        linkedList.add("eagle");
 
-        WordArray wordArrayChecked = wordArrayService.wordGameLogic(wordArray);
-
-        List<String> actual = wordArrayChecked.getWords();
-        List<String> expected = Arrays.asList("fish", "horse");
-
-        Assert.assertEquals(actual, expected);
+        LinkedList<String> expectedLinkedList = new LinkedList<>();
+        expectedLinkedList.add("fish");
+        expectedLinkedList.add("horse");
+        expectedLinkedList.add("egg");
+        expectedLinkedList.add("goose");
+        expectedLinkedList.add("eagle");
+        return Stream.of(Arguments.of(new WordArray(linkedList), new WordArray(expectedLinkedList)));
     }
 
-    @Test
-    public void wordGameLogicTestMissingWordCenter(){
-        List<String> testList = Arrays.asList("fish", "horse", "", "goose", "eagle");
-        wordArray = new WordArray(id, testList);
+    private static Stream<Arguments> dataTest2() {
+        LinkedList<String> linkedList = new LinkedList<>();
+        linkedList.add("fish");
+        linkedList.add("horse");
+        linkedList.add("snake");
+        linkedList.add("goose");
+        linkedList.add("eagle");
 
-        WordArray wordArrayChecked = wordArrayService.wordGameLogic(wordArray);
-
-        List<String> actual = wordArrayChecked.getWords();
-        List<String> expected = Arrays.asList("fish", "horse");
-
-        Assert.assertEquals(actual, expected);
+        LinkedList<String> expectedLinkedList = new LinkedList<>();
+        expectedLinkedList.add("fish");
+        expectedLinkedList.add("horse");
+        return Stream.of(Arguments.of(new WordArray(linkedList), new WordArray(expectedLinkedList)));
     }
 
-    @Test
-    public void wordGameLogicTestMissingWordBeginning(){
-        List<String> testList = Arrays.asList("", "horse", "", "goose", "eagle");
-        wordArray = new WordArray(id, testList);
+    private static Stream<Arguments> dataTest3() {
+        LinkedList<String> linkedList = new LinkedList<>();
+        linkedList.add("fish");
+        linkedList.add("horse");
+        linkedList.add("");
+        linkedList.add("goose");
+        linkedList.add("eagle");
 
-        WordArray wordArrayChecked = wordArrayService.wordGameLogic(wordArray);
-
-        List<String> actual = wordArrayChecked.getWords();
-        List<String> expected = new ArrayList<>();
-
-        Assert.assertEquals(actual, expected);
+        LinkedList<String> expectedLinkedList = new LinkedList<>();
+        expectedLinkedList.add("fish");
+        expectedLinkedList.add("horse");
+        return Stream.of(Arguments.of(new WordArray(linkedList), new WordArray(expectedLinkedList)));
     }
 
+    private static Stream<Arguments> dataTest4() {
+        LinkedList<String> linkedList = new LinkedList<>();
+        linkedList.add("");
+        linkedList.add("horse");
+        linkedList.add("");
+        linkedList.add("goose");
+        linkedList.add("eagle");
+
+        LinkedList<String> expectedLinkedList = new LinkedList<>();
+        return Stream.of(Arguments.of(new WordArray(linkedList), new WordArray(expectedLinkedList)));
+    }
+
+    @ParameterizedTest
+    @MethodSource("dataTest1")
+    void wordGameLogicTest1(WordArray wordArray, WordArray expectedWordArray) {
+        Assertions.assertEquals(expectedWordArray.getWordsList(),
+                wordArrayService.wordGameLogic(wordArray).getWordsList());
+    }
+
+    @ParameterizedTest
+    @MethodSource("dataTest2")
+    void wordGameLogicTest2(WordArray wordArray, WordArray expectedWordArray) {
+        Assertions.assertEquals(expectedWordArray.getWordsList(),
+                wordArrayService.wordGameLogic(wordArray).getWordsList());
+    }
+
+    @ParameterizedTest
+    @MethodSource("dataTest3")
+    void wordGameLogicTest3(WordArray wordArray, WordArray expectedWordArray) {
+        Assertions.assertEquals(expectedWordArray.getWordsList(),
+                wordArrayService.wordGameLogic(wordArray).getWordsList());
+    }
+
+    @ParameterizedTest
+    @MethodSource("dataTest4")
+    void wordGameLogicTest4(WordArray wordArray, WordArray expectedWordArray) {
+        Assertions.assertEquals(expectedWordArray.getWordsList(),
+                wordArrayService.wordGameLogic(wordArray).getWordsList());
+    }
 }

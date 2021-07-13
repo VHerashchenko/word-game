@@ -5,6 +5,7 @@ import com.he.wordgame.service.WordArrayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/api/v1/word-array")
@@ -19,7 +20,7 @@ public class WordArrayController {
     }
 
     @PostMapping("/create")
-    public void addWordArray(@RequestBody WordArray wordArray){
+    public void addWordArray(@Valid @RequestBody WordArray wordArray){
         wordArrayService.addWordArray(wordArray);
     }
 
