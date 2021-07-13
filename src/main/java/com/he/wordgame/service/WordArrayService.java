@@ -29,9 +29,9 @@ public class WordArrayService {
     }
 
     public WordArray wordGameLogic(WordArray wordArray){
-    LinkedList<String> uncheckedList = wordArray.getWordsList();
+    List<String> uncheckedList = wordArray.getWordsList();
 
-        LinkedList<String> correctList = new LinkedList<>();
+    List<String> correctList = new LinkedList<>();
 
     if(!uncheckedList.get(0).equals("")) {
 
@@ -54,7 +54,7 @@ public class WordArrayService {
                 break;
         }
     }
-        wordArray.setWords(correctList);
+        wordArray.setWordsList(correctList);
         return wordArray;
     }
 }
