@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
 
 @Data
@@ -15,6 +17,8 @@ import java.util.LinkedList;
 public class WordArray {
 
     @JsonProperty("words")
+    @NotNull
+    @NotEmpty
     private LinkedList<String> wordsList;
 
     public void setWords(LinkedList<String> wordsList){
